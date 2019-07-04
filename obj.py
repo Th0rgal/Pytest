@@ -13,4 +13,16 @@ class Car:
         self.price = price
 
 
-car_of_emma = Car("Tesla", "Roadster", "Red", 250000)
+voiture_de_thomas = Car("Tesla", "Roadster", "Blanche", 45+10)
+voiture_d_emma = Car("Audi", "Lidl", "caca de pigeon", 55)
+
+if voiture_de_thomas.price < voiture_d_emma.price : 
+    prix_manquant = voiture_d_emma.price - voiture_de_thomas.price
+    print ("il te manque " + str(prix_manquant) + "€")
+
+elif voiture_d_emma.price < voiture_de_thomas.price :
+    prix_restant = voiture_de_thomas.price - voiture_d_emma.price
+    print ("il te reste " + str(prix_restant) + "€")
+
+else :
+    print("il ne te reste plus d'argent")
