@@ -3,7 +3,7 @@ class Car:
     - sa marque
     - son modèle
     - sa couleur
-    - son prix"""
+    - son prix (en €)"""
 
     def __init__(self, brand, model, color, price): # Méthode constructeur
         """Pour l'instant, on ne va définir qu'un seul attribut"""
