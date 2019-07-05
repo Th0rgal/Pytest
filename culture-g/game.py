@@ -61,7 +61,7 @@ for i in range (20):
     #énoncé
     print("---[Question {0}/20]---".format(i+1))
     print ("\n> Citation : « {0} »".format(citation_a_trouver.contenu))
-    print ("\n> Liste d'auteurs possibles : " + designed_authors)
+    print ("\n> Liste d'auteurs possibles :", designed_authors)
 
     proposition = input("\n> Donne le numéro correspondant : ")
 
@@ -77,4 +77,4 @@ for i in range (20):
     input("\nVoici la citation et ses informations complémentaires : {0}, pour passer à la question suivante appuie sur entrer !\n\n".format(citation_a_trouver.version_texte()))
 
 #affiche le message final
-print("Ton score est de: " + str(score))
+print("Ton score est de:", str(score))
