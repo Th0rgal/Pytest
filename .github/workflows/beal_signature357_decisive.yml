@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           repository: Th0rgal/beal-conjecture-lean
-          ref: c024b4f5e6d040132381b13dbfa4b7da5bf64bb5
+          ref: 0a6acaf7faa0d28ae2e37f6cb55605d1b285ffc1
           path: beal
       - name: Compute fixed-7 level-(3,3) exact prime-2 trace-union kernel
         run: >-
@@ -51,7 +51,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           repository: Th0rgal/beal-conjecture-lean
-          ref: 1fe2b60fa6b5d18e38badc12c8fd4ae89cf191f2
+          ref: 376beb5d1271cdf4e4e9b88ff896d8240e8e6c22
           path: beal
       - name: Compute mod-5 norm-8 parity decomposition
         working-directory: beal/scripts
