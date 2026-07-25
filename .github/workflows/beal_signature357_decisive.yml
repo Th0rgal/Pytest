@@ -1,0 +1,66 @@
+name: Beal signature 357 decisive probes
+
+on:
+  push:
+    branches:
+      - research/beal-signature357-probe
+  pull_request:
+    paths:
+      - ".github/workflows/beal_signature357_decisive.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: beal-signature357-decisive-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fixed7-level33:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          repository: Th0rgal/beal-conjecture-lean
+          ref: 0a6acaf7faa0d28ae2e37f6cb55605d1b285ffc1
+          path: beal
+      - name: Compute fixed-7 level-(3,3) exact prime-2 trace-union kernel
+        run: >-
+          python3 beal/scripts/run_signature_357_magma_fixed7_prime2_trace.py
+          > fixed7-level33-prime2-union.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: signature357-fixed7-level33-prime2-union
+          path: fixed7-level33-prime2-union.json
+          if-no-files-found: error
+
+  mod5-level:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - pair: "3,0"
+            norm: 19683
+          - pair: "3,1"
+            norm: 137781
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          repository: Th0rgal/beal-conjecture-lean
+          ref: 376beb5d1271cdf4e4e9b88ff896d8240e8e6c22
+          path: beal
+      - name: Compute mod-5 norm-8 parity decomposition
+        working-directory: beal/scripts
+        run: >-
+          python3 run_signature_357_magma_mod5_norm8_probe.py
+          --pair "${{ matrix.pair }}"
+          > "../../mod5-norm8-${{ matrix.norm }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: signature357-mod5-norm8-${{ matrix.norm }}
+          path: "mod5-norm8-${{ matrix.norm }}.json"
+          if-no-files-found: error

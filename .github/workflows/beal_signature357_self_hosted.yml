@@ -1,0 +1,55 @@
+name: Beal signature 357 self-hosted fallback
+
+on:
+  push:
+    branches:
+      - research/beal-signature357-probe
+  pull_request:
+    paths:
+      - ".github/workflows/beal_signature357_self_hosted.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: beal-signature357-self-hosted-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  decisive:
+    runs-on: self-hosted
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          repository: Th0rgal/beal-conjecture-lean
+          ref: 0a6acaf7faa0d28ae2e37f6cb55605d1b285ffc1
+          path: fixed7
+      - uses: actions/checkout@v5
+        with:
+          repository: Th0rgal/beal-conjecture-lean
+          ref: 376beb5d1271cdf4e4e9b88ff896d8240e8e6c22
+          path: mod5
+      - name: Fixed-7 level-(3,3) prime-2 trace union
+        run: >-
+          python3 fixed7/scripts/run_signature_357_magma_fixed7_prime2_trace.py
+          > fixed7-level33-prime2-union.json
+      - name: Mod-5 level 19683 norm-8 parity decomposition
+        working-directory: mod5/scripts
+        run: >-
+          python3 run_signature_357_magma_mod5_norm8_probe.py --pair "3,0"
+          > ../../mod5-norm8-19683.json
+      - name: Mod-5 level 137781 norm-8 parity decomposition
+        working-directory: mod5/scripts
+        run: >-
+          python3 run_signature_357_magma_mod5_norm8_probe.py --pair "3,1"
+          > ../../mod5-norm8-137781.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: signature357-self-hosted-decisive-results
+          path: |
+            fixed7-level33-prime2-union.json
+            mod5-norm8-19683.json
+            mod5-norm8-137781.json
+          if-no-files-found: error
